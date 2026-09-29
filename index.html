@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAHAJ – One Campus, One Place | Fretbox</title>
+
+  <!-- Favicon (SAHAJ logo) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-120 -120 1494 1494'%3E%3Crect x='-120' y='-120' width='1494' height='1494' rx='300' fill='%232563eb'/%3E%3Cpath d='M888 297C860 318 800 330 740 300C690 275 650 230 600 205C545 180 490 200 452 240L250 445C190 495 175 570 210 620C255 668 330 665 385 612L525 468C570 425 640 405 720 445C800 490 920 560 1010 625C1060 660 1070 720 1030 750C1005 762 955 768 928 784C895 805 915 865 872 878C835 888 822 905 818 935C812 970 760 980 735 990C715 1000 735 1040 700 1060C665 1075 635 1050 590 1020C540 985 470 970 410 1000L388 1015' fill='none' stroke='white' stroke-width='58' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+  <style>
+    /* ---------- Global Reset & Variables ---------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0b0f19;
+      --surface: #121826;
+      --surface-elevated: #1a2234;
+      --border: #232d42;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-glow: rgba(59, 130, 246, 0.35);
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    .container { width: min(1200px, 100% - 3rem); margin-inline: auto; }
+
+    /* ---------- Navigation ---------- */
+    header {
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; }
+    .brand-logo { width: 34px; height: 34px; color: #fff; flex-shrink: 0; }
+    .brand small {
+      font-size: .7rem; font-weight: 600; color: var(--text-muted);
+      margin-left: .15rem; align-self: flex-end; padding-bottom: 2px;
+    }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.btn-primary, .nav-links a.btn-primary:hover { color: #fff; }
+
+    .badge {
+      display: inline-block; padding: .35rem .8rem; border-radius: 999px;
+      background: rgba(59,130,246,.15); color: #93c5fd;
+      font-size: .8rem; font-weight: 600; border: 1px solid rgba(59,130,246,.35);
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: .85rem 1.6rem; border-radius: 8px; font-weight: 700;
+      cursor: pointer; transition: transform .15s ease, background .15s ease;
+      font-size: 0.95rem; border: none;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 18px var(--primary-glow); }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-ghost { border: 1px solid var(--border); color: #e2e8f0; background: var(--surface); }
+    .btn-ghost:hover { background: rgba(255,255,255,.06); border-color: var(--text-muted); }
+
+    /* ---------- 1. Hero Section (SAHAJ Pinwheel) ---------- */
+    .hero-sahaj { padding: 3.5rem 0 4.5rem; position: relative; }
+    .sahaj-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
+      gap: 3rem;
+      align-items: center;
+    }
+    .hero-headline-block h1 {
+      font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+      font-weight: 850;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+    .hero-headline-block h1 .blue-accent { color: var(--primary); display: block; }
+    .hero-headline-block h1 .sub-phrase { color: #93c5fd; font-weight: 700; }
+    .hero-headline-block p {
+      font-size: 1.05rem; line-height: 1.65; color: var(--text-muted);
+      max-width: 48ch; margin-bottom: 2rem;
+    }
+    .hero-btn-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .click-hint { font-size: 0.8rem; color: #60a5fa; display: flex; align-items: center; gap: 0.4rem; font-weight: 600; }
+
+    /* Pinwheel Component */
+    .pinwheel {
+      position: relative;
+      width: min(100%, 620px);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+    }
+    .pinwheel svg.wheel { width: 100%; height: 100%; display: block; overflow: visible; }
+    .pw-slice { cursor: pointer; outline: none; }
+    .pw-slice .shape {
+      transition: transform .25s cubic-bezier(0.2, 0.8, 0.2, 1), filter .25s ease;
+      stroke: #0b0f19; stroke-width: 4; stroke-linejoin: round;
+    }
+    .pw-slice:hover .shape,
+    .pw-slice:focus-visible .shape,
+    .pw-slice.active .shape {
+      transform: translate(var(--dx), var(--dy));
+      filter: brightness(1.18) drop-shadow(0 10px 20px rgba(0,0,0,.6));
+    }
+    .pw-slice:focus-visible .shape { stroke: #fff; }
+    .pw-slice .label { pointer-events: none; transition: transform .25s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .pw-slice:hover .label,
+    .pw-slice:focus-visible .label,
+    .pw-slice.active .label { transform: translate(var(--dx), var(--dy)); }
+    .pw-slice .label text {
+      fill: #ffffff; font-family: inherit; font-size: 13.5px; font-weight: 800;
+      letter-spacing: -0.01em; text-anchor: middle; paint-order: stroke;
+      stroke: rgba(0,0,0,0.5); stroke-width: 2.5px;
+    }
+    .pw-slice .label svg {
+      fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+
+    /* Hub */
+    .pw-hub {
+      position: absolute; inset: 0; margin: auto;
+      width: 36%; aspect-ratio: 1; border-radius: 50%;
+      background: #ffffff; color: #0b0f19;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 1rem;
+      box-shadow: 0 0 0 8px rgba(255,255,255,.08), 0 10px 45px rgba(0,0,0,.6);
+      pointer-events: none; user-select: none;
+    }
+    .hub-logo {
+      width: clamp(34px, 5vw, 52px);
+      height: clamp(34px, 5vw, 52px);
+      margin-bottom: .3rem;
+      color: #0b0f19;
+    }
+    .pw-hub .hub-title { font-size: clamp(1rem, 2.5vw, 1.45rem); font-weight: 900; letter-spacing: .12em; line-height: 1; }
+    .pw-hub .hub-sub { font-size: clamp(.5rem, 1.2vw, .65rem); font-weight: 700; letter-spacing: .16em; color: #64748b; margin-top: .35rem; }
+    .pw-hub .hub-feature { font-size: clamp(.85rem, 2.2vw, 1.15rem); font-weight: 800; color: #0b0f19; }
+    .pw-hub .hub-desc { font-size: clamp(.62rem, 1.5vw, .82rem); line-height: 1.35; color: #334155; margin-top: .35rem; }
+    .pw-hub .hub-action-tag { font-size: 0.65rem; color: #2563eb; font-weight: 800; margin-top: 0.4rem; text-transform: uppercase; }
+    .pw-hub [hidden] { display: none; }
+
+    /* ---------- 2. Social Proof & Numbers ---------- */
+    .social-proof {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(18, 24, 38, 0.4);
+      padding: 2.5rem 0;
+    }
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      text-align: center;
+    }
+    .proof-stat { font-size: 2.4rem; font-weight: 850; letter-spacing: -0.03em; color: #fff; }
+    .proof-stat span { color: var(--primary); }
+    .proof-desc { font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem; font-weight: 500; }
+
+    /* ---------- 3. Problem Agitation Section ---------- */
+    .section { padding: 5.5rem 0; }
+    .section-title { font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 850; text-align: center; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .section-subtitle { text-align: center; color: var(--text-muted); max-width: 640px; margin: 0 auto 3rem; font-size: 1.05rem; }
+
+    .split-agitation {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .friction-card, .fluid-card { border-radius: 16px; padding: 2.2rem; }
+    .friction-card { background: rgba(239, 68, 68, 0.03); border: 1px solid rgba(239, 68, 68, 0.25); }
+    .fluid-card { background: rgba(16, 185, 129, 0.03); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .card-banner {
+      font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .banner-red { color: var(--rose); }
+    .banner-green { color: var(--emerald); }
+    .agitation-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+    .agitation-item {
+      display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.9rem 1rem;
+      border-radius: 8px; font-size: 0.9rem;
+    }
+    .item-broken { background: rgba(255, 255, 255, 0.02); border: 1px dashed rgba(239, 68, 68, 0.35); color: #fca5a5; }
+    .item-fixed { background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); color: #86efac; }
+
+    /* ---------- 4. Solution & Dynamic Modules ---------- */
+    .module-tabs {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 2.5rem;
+    }
+    .module-tab-btn {
+      background: var(--surface); border: 1px solid var(--border); color: var(--text-muted);
+      padding: 0.55rem 1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .module-tab-btn:hover, .module-tab-btn.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .solution-viewer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.5);
+    }
+    .solution-info .category-tag {
+      font-size: 0.75rem; text-transform: uppercase; font-weight: 800; letter-spacing: 0.08em;
+      color: var(--primary); margin-bottom: 0.5rem;
+    }
+    .solution-info h3 { font-size: 2rem; font-weight: 850; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .pain-box {
+      background: rgba(239, 68, 68, 0.08); border-left: 3px solid var(--rose);
+      padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; font-size: 0.9rem; color: #fca5a5;
+      margin-bottom: 1.25rem;
+    }
+    .solve-box {
+      background: rgba(16, 185, 129, 0.08); border-left: 3px solid var(--emerald);
+      padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; font-size: 0.95rem; color: #86efac;
+      margin-bottom: 1.5rem;
+    }
+    .solution-benefits { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.9rem; color: var(--text-muted); }
+    .solution-benefits li { display: flex; align-items: center; gap: 0.5rem; }
+    .solution-benefits li span { color: var(--emerald); font-weight: 800; }
+
+    /* Interactive Mockup Terminal */
+    .interactive-ui-terminal {
+      background: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+    }
+    .terminal-top {
+      background: var(--surface-elevated);
+      padding: 0.65rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .terminal-dots { display: flex; gap: 6px; }
+    .terminal-dots div { width: 9px; height: 9px; border-radius: 50%; }
+    .terminal-body { padding: 1.5rem; font-size: 0.85rem; }
+
+    /* ---------- 5. How It Works ---------- */
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+      margin-top: 2rem;
+    }
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+    .step-num {
+      width: 38px; height: 38px; border-radius: 50%; background: var(--primary);
+      color: #fff; font-weight: 800; display: flex; align-items: center;
+      justify-content: center; margin-bottom: 1.25rem; box-shadow: 0 0 15px var(--primary-glow);
+    }
+    .step-card h4 { font-size: 1.2rem; font-weight: 750; margin-bottom: 0.5rem; }
+    .step-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ---------- 6. FAQs (Objection Handling) ---------- */
+    .faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+    .faq-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.25rem 1.5rem; cursor: pointer;
+    }
+    .faq-card summary { font-weight: 700; font-size: 1rem; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    .faq-card summary::-webkit-details-marker { display: none; }
+    .faq-card summary::after { content: '+'; font-size: 1.3rem; color: var(--text-muted); }
+    .faq-card[open] summary::after { content: '−'; }
+    .faq-card p { margin-top: 0.85rem; color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+
+    /* ---------- 7. Final Benefit CTA ---------- */
+    .cta-stage {
+      background: linear-gradient(180deg, var(--surface) 0%, rgba(18, 24, 38, 0.4) 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4.5rem 2rem;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .cta-logo { width: 56px; height: 56px; color: #fff; margin: 0 auto 1.25rem; display: block; }
+    .cta-stage h2 { font-size: clamp(2rem, 3.5vw, 2.7rem); font-weight: 850; margin-bottom: 1rem; }
+    .cta-stage p { color: var(--text-muted); max-width: 580px; margin: 0 auto 2.2rem; font-size: 1.05rem; }
+
+    /* ---------- Footer ---------- */
+    footer { border-top: 1px solid var(--border); padding: 2.5rem 0; text-align: center; font-size: 0.85rem; color: var(--text-muted); }
+    .footer-logo { width: 18px; height: 18px; vertical-align: -3px; color: #94a3b8; margin-right: .25rem; }
+
+    /* Responsive adjustments */
+    @media (max-width: 990px) {
+      .sahaj-grid, .split-agitation, .solution-viewer, .step-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-headline-block { text-align: center; }
+      .hero-headline-block p { margin-inline: auto; }
+      .hero-btn-row, .click-hint { justify-content: center; }
+      .pinwheel { width: min(100%, 500px); }
+      .nav-links a:not(.btn) { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pw-slice .shape, .pw-slice .label, .btn { transition: none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SAHAJ logo (reusable SVG symbol) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="sahaj-logo" viewBox="0 0 1254 1254">
+      <path d="M888 297
+        C860 318 800 330 740 300 C690 275 650 230 600 205
+        C545 180 490 200 452 240 L250 445
+        C190 495 175 570 210 620 C255 668 330 665 385 612
+        L525 468 C570 425 640 405 720 445
+        C800 490 920 560 1010 625 C1060 660 1070 720 1030 750
+        C1005 762 955 768 928 784 C895 805 915 865 872 878
+        C835 888 822 905 818 935 C812 970 760 980 735 990
+        C715 1000 735 1040 700 1060 C665 1075 635 1050 590 1020
+        C540 985 470 970 410 1000 L388 1015"
+        fill="none" stroke="currentColor" stroke-width="58"
+        stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container">
+      <nav>
+        <a href="#" class="brand" aria-label="SAHAJ home">
+          <svg class="brand-logo"><use href="#sahaj-logo"/></svg>
+          SAHAJ
+        </a>
+        <div class="nav-links">
+          <a href="#problem">The Problem</a>
+          <a href="#solution-engine">Solutions</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#faq">FAQ</a>
+          <a href="#cta" class="btn btn-primary" style="padding: 0.45rem 1rem; font-size: 0.85rem;">Login/Signup</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. HERO SECTION -->
+    <section class="hero-sahaj">
+      <div class="container">
+        <div class="sahaj-grid">
+
+          <div class="hero-headline-block">
+            <div class="badge">Campus Life, Debugged • BPUT Hackathon 2026</div>
+            <h1>
+              Everything <span class="blue-accent">your campus</span> needs.
+              <span class="sub-phrase">In one place.</span>
+            </h1>
+            <p>
+              Replace Four apps, six notice boards, two WhatsApp groups, one register, and endless counter queues with a singular, transparent operational engine that runs even on 2G hostel networks.
+            </p>
+            <div class="hero-btn-row">
+              <a href="#cta" class="btn btn-primary">login/signup</a>
+              <a href="#problem" class="btn btn-ghost">See What Changes</a>
+            </div>
+            <div class="click-hint">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+              <span>Click any wheel sector to see how SAHAJ solves it live:</span>
+            </div>
+          </div>
+
+          <!-- Dynamic SAHAJ Pinwheel Hub -->
+          <div class="pinwheel" id="pinwheel">
+            <svg class="wheel" viewBox="0 0 640 640" role="group" aria-label="SAHAJ campus modules"></svg>
+
+            <div class="pw-hub" aria-live="polite">
+              <div class="hub-default">
+                <svg class="hub-logo"><use href="#sahaj-logo"/></svg>
+                <div class="hub-title">SAHAJ</div>
+                <div class="hub-sub">ONE CAMPUS<br>ONE PLACE</div>
+              </div>
+              <div class="hub-active" hidden>
+                <div class="hub-feature"></div>
+                <div class="hub-desc"></div>
+                <div class="hub-action-tag">Click to inspect ↵</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. SOCIAL PROOF & KEY METRICS -->
+    <section class="social-proof">
+      <div class="container">
+        <div class="proof-grid">
+          <div>
+            <div class="proof-stat">0 <span>Registers</span></div>
+            <div class="proof-desc">Paperless gate passes, grievances & bonafides</div>
+          </div>
+          <div>
+            <div class="proof-stat">&lt; 2 <span>min</span></div>
+            <div class="proof-desc">Average time to log tickets or verify dues</div>
+          </div>
+          <div>
+            <div class="proof-stat">100% <span>Audit</span></div>
+            <div class="proof-desc">SLA tracking, issue aging & staff assignment</div>
+          </div>
+          <div>
+            <div class="proof-stat">85 <span>KB</span></div>
+            <div class="proof-desc">Ultra-light PWA bundle for 2G hostel rooms</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PROBLEM STATEMENT -->
+    <section class="section" id="problem">
+      <div class="container">
+        <h2 class="section-title">Campus operations shouldn't run on notice boards, WhatsApp groups, and register</h2>
+        <p class="section-subtitle">
+          Students lose an entire afternoon walking between academic cells and warden cabins for routine approvals that require zero human debate.
+        </p>
+
+        <div class="split-agitation">
+          <div class="friction-card">
+            <div class="card-banner banner-red">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+              The Broken Campus Reality
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+              Two thousand students quietly accepting operational chaos as "just how college works."
+            </p>
+            <div class="agitation-list">
+              <div class="agitation-item item-broken">
+                <span>🚰</span>
+                <div>
+                  <strong>Hostel tap leaking for 9 days</strong>
+                  <div style="font-size: 0.8rem; opacity: 0.85;">Logged in a physical register that sits buried on the warden's desk.</div>
+                </div>
+              </div>
+              <div class="agitation-item item-broken">
+                <span>🚪</span>
+                <div>
+                  <strong>Queue outside offices opening at 11 AM</strong>
+                  <div style="font-size: 0.8rem; opacity: 0.85;">Standing in line just to get a bonafide stamp or submit a weekend out-pass.</div>
+                </div>
+              </div>
+              <div class="agitation-item item-broken">
+                <span>📢</span>
+                <div>
+                  <strong>Important notices lost at 2 AM</strong>
+                  <div style="font-size: 0.8rem; opacity: 0.85;">Urgent exam schedules drowned under 300 memes in unverified WhatsApp groups.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fluid-card">
+            <div class="card-banner banner-green">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              The Debugged SAHAJ Flow
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+              Every request is assigned, tracked, auto-escalated, and resolved in minutes.
+            </p>
+            <div class="agitation-list">
+              <div class="agitation-item item-fixed">
+                <span>⚡</span>
+                <div>
+                  <strong>10-Second Photo Grievance</strong>
+                  <div style="font-size: 0.8rem; opacity: 0.85;">Auto-routed directly to the campus plumber with automated SLA reminders.</div>
+                </div>
+              </div>
+              <div class="agitation-item item-fixed">
+                <span>📱</span>
+                <div>
+                  <strong>Instant One-Touch Gate Pass</strong>
+                  <div style="font-size: 0.8rem; opacity: 0.85;">Digital authorization workflow generates a dynamic QR code for guard scan.</div>
+                </div>
+              </div>
+              <div class="agitation-item item-fixed">
+                <span>🎯</span>
+                <div>
+                  <strong>Targeted Announcement Delivery</strong>
+                  <div style="font-size: 0.8rem; opacity: 0.85;">Notices broadcast strictly to your branch, year, or hostel wing with read receipts.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SOLUTION ENGINE -->
+    <section class="section" id="solution-engine" style="background: rgba(18, 24, 38, 0.25); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+      <div class="container">
+        <h2 class="section-title">The Solution Engine</h2>
+        <p class="section-subtitle">Click any module tab or pinwheel slice above to see how SAHAJ solves that exact friction point.</p>
+
+        <div class="module-tabs" id="moduleTabs"></div>
+
+        <div class="solution-viewer" id="solutionViewer">
+          <div class="solution-info">
+            <div class="category-tag" id="solTag">Module Deep-Dive</div>
+            <h3 id="solTitle">Complaints & Maintenance</h3>
+            <div class="pain-box">
+              <strong>The Old Problem:</strong> <span id="solPain"></span>
+            </div>
+            <div class="solve-box">
+              <strong>How SAHAJ Solves It:</strong> <span id="solSolve"></span>
+            </div>
+            <ul class="solution-benefits" id="solBenefits"></ul>
+          </div>
+
+          <div class="interactive-ui-terminal">
+            <div class="terminal-top">
+              <div class="terminal-dots">
+                <div style="background: #ef4444;"></div>
+                <div style="background: #f59e0b;"></div>
+                <div style="background: #10b981;"></div>
+              </div>
+              <span id="solTermTitle">complaints_ticketing.sys</span>
+              <span style="color: var(--emerald);">● Online (2G Synced)</span>
+            </div>
+            <div class="terminal-body" id="solTermBody"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. HOW IT WORKS -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <h2 class="section-title">How It Works in 3 Simple Steps</h2>
+        <p class="section-subtitle">Zero training required. Designed for immediate campus-wide adoption.</p>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h4>Log or Requisition</h4>
+            <p>The student raises a maintenance ticket, gate pass, or document request via the ultra-fast PWA or automated SMS fallback desk.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h4>Intelligent Assignment</h4>
+            <p>SAHAJ auto-routes the ticket to the responsible department officer or warden, initiating an auditable resolution countdown.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h4>Resolution & Audit Log</h4>
+            <p>The ticket is signed off with photographic evidence or digital countersignature, permanently logging it for administrator review.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. FAQS -->
+    <section class="section" id="faq" style="background: rgba(18, 24, 38, 0.2); border-top: 1px solid var(--border);">
+      <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Addressing technical feasibility, rollout realism, and campus edge cases.</p>
+
+        <div class="faq-container">
+          <details class="faq-card" open>
+            <summary>How does this operate in thick-walled hostels with patchy 2G networks?</summary>
+            <p>SAHAJ is engineered as an offline-first Progressive Web App (PWA) under a strict 85KB network budget. When connectivity drops, requests are cached in the browser's local storage and sync in the background the moment a connection is re-established.</p>
+          </details>
+
+          <details class="faq-card">
+            <summary>What is the fallback for students who genuinely don't own a smartphone?</summary>
+            <p>Students can trigger gate passes or emergency facility tickets via a two-way automated SMS shortcode service (e.g., texting 'PASS OUT' to 56070) or self-service touchscreen kiosks installed in academic foyers.</p>
+          </details>
+
+          <details class="faq-card">
+            <summary>Does our college need to abandon our existing legacy ERP or SQL database?</summary>
+            <p>No. SAHAJ contains an ingestion and sync adapter that imports student rosters, fee statuses, and course structures from existing Excel/CSV exports or SQL databases without taking systems offline.</p>
+          </details>
+
+          <details class="faq-card">
+            <summary>How does the admin command deck prevent complaint backlogs?</summary>
+            <p>Unaddressed tickets automatically escalate after a configurable duration (e.g., 24 or 48 hours). The dashboard flags recurring equipment failure hotspots by hostel wing or floor so preventive maintenance can happen before issues multiply.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. FINAL CTA -->
+    <section class="section" id="cta" style="padding-bottom: 2rem;">
+      <div class="container">
+        <div class="cta-stage">
+          <svg class="cta-logo"><use href="#sahaj-logo"/></svg>
+          <h2>Stop running your campus on paper diaries.</h2>
+          <p>Test the prototype designed to debug everyday campus life for 2,000+ students and administrators today.</p>
+          <a href="#" class="btn btn-primary" style="font-size: 1.1rem; padding: 1.1rem 2.2rem;">Login/Signup</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>
+        <svg class="footer-logo"><use href="#sahaj-logo"/></svg>
+        © 2026 SAHAJ by Team_Bitwise • Built for BPUT Hackathon 2026 • Problem Statement 07: Campus Life, Debugged
+      </p>
+    </div>
+  </footer>
+
+  <!-- Pinwheel & Dynamic Solution Engine Logic -->
+  <script>
+  (function () {
+    // 1. Data for all 9 modules
+    var items = [
+      {
+        id: 'attendance',
+        t: 'Attendance',
+        c: '#0284c7',
+        d: 'Check your attendance anytime, anywhere.',
+        i: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>',
+        pain: 'Attendance is locked in paper registers or siloed portals updated weeks late. Students only discover shortfalls right before hall tickets are blocked.',
+        solve: 'Live subject-wise attendance aggregation with real-time percentage indicators and automated 75% boundary warning triggers.',
+        benefits: ['Subject-by-subject percentage calculator', 'Proactive alerts when attendance nears cutoff', 'Single-click medical leave adjustment logging'],
+        mockup: `
+          <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
+            <span>Overall Attendance: <strong style="color:var(--emerald);">84.6%</strong></span>
+            <span style="color:#60a5fa; font-weight:700;">Safe (&gt;75%)</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.06); height:6px; border-radius:99px; margin-bottom:1rem; overflow:hidden;">
+            <div style="background:var(--emerald); width:85%; height:100%;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border-light);">
+            <span>CS301: Computer Networks</span>
+            <strong>92% (23/25)</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border-light);">
+            <span>CS302: Operating Systems</span>
+            <strong style="color:var(--amber);">76% (19/25) ⚠️</strong>
+          </div>
+        `
+      },
+      {
+        id: 'timetable',
+        t: 'Timetable',
+        c: '#4f46e5',
+        d: 'View your class schedule and get instant updates.',
+        i: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+        pain: 'Cancelled classes, substitute professors, and lab swaps are scribbled on random notice boards or lost in chaotic morning forwards.',
+        solve: 'Dynamic schedule view synced directly to faculty check-ins with push notices alerting students before they walk across campus.',
+        benefits: ['Real-time lecture cancellation and room shift alerts', 'Visual day & week timeline with laboratory badges', 'Works fully offline once cached for the semester'],
+        mockup: `
+          <div style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); border-radius:8px; padding:0.75rem; margin-bottom:0.75rem;">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#93c5fd;">
+              <span>TODAY • 10:00 AM - 11:30 AM</span>
+              <span style="font-weight:700; color:var(--emerald);">IN PROGRESS</span>
+            </div>
+            <strong style="display:block; margin:0.25rem 0;">CS302 Lab: Systems Simulation</strong>
+            <span style="font-size:0.75rem; color:var(--text-muted);">Lab Complex Room 402 • Prof. Sharma</span>
+          </div>
+          <div style="opacity:0.6; padding:0.5rem 0; font-size:0.8rem;">
+            Next: CS303 Database Design @ 01:30 PM (Lecture Hall 2)
+          </div>
+        `
+      },
+      {
+        id: 'documents',
+        t: 'Documents',
+        c: '#9333ea',
+        d: 'Apply for certificates and track their status.',
+        i: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
+        pain: 'Getting a bonafide certificate or dues clearance takes 4 counter visits, printed forms, and endless queries outside an office open only from 11 AM.',
+        solve: 'Self-serve digital requisition desk with end-to-end milestone tracking and verifiable QR-signed PDF delivery.',
+        benefits: ['Zero physical queues outside academic admin desks', 'Full tracking from submitted to signed to dispatched', 'Verifiable digital credentials with tamper-proof signatures'],
+        mockup: `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <strong>Bonafide Certificate (Passport App)</strong>
+            <span style="background:rgba(16,185,129,0.15); color:var(--emerald); padding:0.2rem 0.5rem; border-radius:4px; font-weight:700; font-size:0.7rem;">READY FOR DOWNLOAD</span>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.75rem;">
+            Application #DOC-2026-904 • Signed by Dean Academics
+          </div>
+          <a href="#" style="display:block; background:rgba(255,255,255,0.05); text-align:center; padding:0.5rem; border-radius:6px; color:#60a5fa; font-weight:700; font-size:0.8rem;">📥 Download Verifiable PDF (QR Encrypted)</a>
+        `
+      },
+      {
+        id: 'gatepass',
+        t: 'Gate Pass',
+        c: '#ea580c',
+        d: 'Request, approve and track gate passes.',
+        i: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 12h18"/>',
+        pain: 'Out-pass slips written on paper stubs, requiring warden visits, phone confirmation calls to parents, and manual logs at the security gate.',
+        solve: 'Digital leave requisition with automatic parent SMS/WhatsApp consent and instant dynamic QR code scanning at security gates.',
+        benefits: ['Sub-1-minute weekend leave pass approvals', 'Instant biometric or QR scanning at campus exits', 'Security guard ledger with zero paper entry registers'],
+        mockup: `
+          <div style="text-align:center; padding:0.5rem 0;">
+            <div style="display:inline-block; background:#fff; color:#000; padding:0.75rem; border-radius:8px; font-weight:900; letter-spacing:0.1em; margin-bottom:0.5rem;">
+              [ QR: PASS-8942-OUT ]
+            </div>
+            <div style="font-weight:700; color:var(--emerald);">AUTHORIZED EXIT VALID</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Abhishek Jena • Weekend Leave • Expires Sun 20:00</div>
+          </div>
+        `
+      },
+      {
+        id: 'hostel',
+        t: 'Hostel',
+        c: '#d97706',
+        d: 'Room complaints, room assets and visitor logs.',
+        i: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+        pain: 'Hostel inventories exist in frayed diaries. Room damage disputes, inventory handover arguments, and untracked guest entries are standard.',
+        solve: 'Digital hostel unit management containing room asset records, digital visitor entry authorizations, and room maintenance history.',
+        benefits: ['Complete inventory state saved at room check-in', 'Pre-registered digital visitor logs for campus safety', 'Warden overview of occupancy and wing maintenance load'],
+        mockup: `
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.75rem;">
+            <div style="background:var(--surface-elevated); padding:0.5rem; border-radius:6px;">
+              <small style="color:var(--text-muted);">Assigned Room</small>
+              <div style="font-weight:700;">Block B • 204 (Double)</div>
+            </div>
+            <div style="background:var(--surface-elevated); padding:0.5rem; border-radius:6px;">
+              <small style="color:var(--text-muted);">Asset Audit</small>
+              <div style="font-weight:700; color:var(--emerald);">All 6 Items Verified</div>
+            </div>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Active Visitor Pass: Father (Entry Authorized until 19:00)</div>
+        `
+      },
+      {
+        id: 'mess',
+        t: 'Mess',
+        c: '#059669',
+        d: 'See the daily menu and share meal feedback.',
+        i: '<path d="M18 2v20M6 2v20M2 7h8M2 12h8M14 7h8M14 12h8"/>',
+        pain: 'Students arrive at mess halls unaware of menu changes. Food quality grievances are vented verbally with zero accountability or historical logs.',
+        solve: 'Live digitized menu calendar paired with quick meal satisfaction voting and food committee audit reports.',
+        benefits: ['Instant notification of special diet items or menu shifts', 'Daily meal quality rating system accessible to administrators', 'Food waste analytics based on real-time attendance polling'],
+        mockup: `
+          <div style="border-bottom:1px solid var(--border-light); padding-bottom:0.5rem; margin-bottom:0.5rem;">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
+              <strong style="color:#6ee7b7;">TODAY'S DINNER (19:30 - 21:30)</strong>
+              <span>Rated ★ 4.3/5</span>
+            </div>
+            <div style="font-size:0.85rem; margin-top:0.2rem;">Paneer Butter Masala, Dal Makhani, Phulka, Rice & Kheer</div>
+          </div>
+          <div style="display:flex; gap:0.5rem; font-size:0.75rem;">
+            <button style="flex:1; background:rgba(16,185,129,0.15); border:1px solid var(--emerald); color:#86efac; padding:0.3rem; border-radius:4px; cursor:pointer;">👍 Good Today</button>
+            <button style="flex:1; background:rgba(239,68,68,0.15); border:1px solid var(--rose); color:#fca5a5; padding:0.3rem; border-radius:4px; cursor:pointer;">👎 Needs Improvement</button>
+          </div>
+        `
+      },
+      {
+        id: 'communication',
+        t: 'Communication',
+        c: '#0891b2',
+        d: 'Notices targeted to your batch, branch or wing.',
+        i: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+        pain: 'Broadcast WhatsApp groups are chaotic, spam-heavy, and unverified. Students regularly miss official circulars posted in third-party chats.',
+        solve: 'Segmented communication channel filtered strictly by branch, year, hostel block, or batch, with read and action tracking.',
+        benefits: ['Zero broadcast spam or unmoderated midnight chat noise', 'Filter notices by "Action Required" vs "FYI Only"', 'Administrator delivery rates and student read confirmation logs'],
+        mockup: `
+          <div style="background:rgba(8,145,178,0.1); border-left:3px solid #0891b2; padding:0.6rem; border-radius:0 6px 6px 0; margin-bottom:0.5rem;">
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#67e8f9;">
+              <span>TARGETED: CSE 3rd Year • Hostel B</span>
+              <span>10m ago</span>
+            </div>
+            <strong style="display:block; font-size:0.8rem; margin:0.2rem 0;">Lab External Exam Timetable Updated</strong>
+            <div style="font-size:0.72rem; color:var(--text-muted);">Please check updated batch slots in the Timetable tab.</div>
+          </div>
+          <div style="font-size:0.7rem; color:var(--emerald); text-align:right;">✓ Read confirmed by 198/210 students</div>
+        `
+      },
+      {
+        id: 'fees',
+        t: 'Fees & Dues',
+        c: '#4338ca',
+        d: 'Check fee balances and verify receipts.',
+        i: '<path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3a4.5 4.5 0 0 0 0-9"/>',
+        pain: 'Students stand in line outside the accounts department to verify if semester fees or library fines cleared before semester exams.',
+        solve: 'Unified transparent ledger displaying fee dues, payment verifications, and instant downloadable clearance certificates.',
+        benefits: ['Transparent fee balance breakdown (Tuition, Hostel, Mess)', 'No-dues clearance certificate generated automatically', 'Instant digital fee receipt verification for parents and bank loans'],
+        mockup: `
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+            <span>Semester 6 Dues Balance:</span>
+            <strong style="color:var(--emerald); font-size:1.1rem;">₹ 0.00</strong>
+          </div>
+          <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25); border-radius:6px; padding:0.5rem; font-size:0.75rem; color:#86efac; margin-bottom:0.75rem;">
+            ✓ All accounts, library, and hostel dues cleared for Examination Hall Ticket.
+          </div>
+          <div style="font-size:0.75rem; color:#a5b4fc; text-decoration:underline; cursor:pointer;">Download Official Semester Clearance Slip (.PDF)</div>
+        `
+      },
+      {
+        id: 'complaints',
+        t: 'Complaints',
+        c: '#e11d48',
+        d: 'Report and track maintenance and facility tickets.',
+        i: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+        pain: 'Broken taps, faulty fans, and Wi-Fi outages sit unaddressed for 9+ days because reports are scrawled in paper diaries with zero accountability.',
+        solve: '10-second photo ticketing with auto-routing to facility crews, SLA countdowns, and automatic escalation to college leadership if delayed.',
+        benefits: ['Direct assignment to plumbers, electricians, or carpenters', 'Escalation to warden if unaddressed after 48 hours', 'Permanent digital audit trail with resolved photo evidence'],
+        mockup: `
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+            <strong>Ticket #TKT-492: Water Leakage</strong>
+            <span style="background:rgba(239,68,68,0.15); color:var(--rose); padding:0.15rem 0.4rem; border-radius:4px; font-weight:700; font-size:0.7rem;">SLA: 2h Remaining</span>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">
+            Hostel B, 2nd Floor Washroom • Dispatched to K. Suresh (Plumbing)
+          </div>
+          <div style="background:rgba(255,255,255,0.06); height:4px; border-radius:99px; overflow:hidden;">
+            <div style="background:var(--amber); width:70%; height:100%;"></div>
+          </div>
+        `
+      }
+    ];
+
+    // 2. Elements
+    var root = document.getElementById('pinwheel');
+    var svg = root.querySelector('svg.wheel');
+    var defEl = root.querySelector('.hub-default');
+    var actEl = root.querySelector('.hub-active');
+    var NS = 'http://www.w3.org/2000/svg';
+
+    var CX = 320, CY = 320, R_OUT = 300, R_IN = 120, R_LABEL = 212;
+    var STEP = 360 / items.length;
+
+    function pt(r, deg) {
+      var a = (deg - 90) * Math.PI / 180;
+      return [CX + r * Math.cos(a), CY + r * Math.sin(a)];
+    }
+
+    function showHub(i) {
+      defEl.hidden = true;
+      actEl.hidden = false;
+      actEl.querySelector('.hub-feature').textContent = items[i].t;
+      actEl.querySelector('.hub-desc').textContent = items[i].d;
+    }
+
+    function resetHub() {
+      defEl.hidden = false;
+      actEl.hidden = true;
+      svg.querySelectorAll('.active').forEach(function (n) { n.classList.remove('active'); });
+    }
+
+    // 3. Solution engine
+    var tabsContainer = document.getElementById('moduleTabs');
+    var solTag = document.getElementById('solTag');
+    var solTitle = document.getElementById('solTitle');
+    var solPain = document.getElementById('solPain');
+    var solSolve = document.getElementById('solSolve');
+    var solBenefits = document.getElementById('solBenefits');
+    var solTermTitle = document.getElementById('solTermTitle');
+    var solTermBody = document.getElementById('solTermBody');
+    var solutionViewer = document.getElementById('solutionViewer');
+
+    function selectModule(index, shouldScroll) {
+      var item = items[index];
+
+      document.querySelectorAll('.module-tab-btn').forEach(function (btn, idx) {
+        btn.classList.toggle('active', idx === index);
+      });
+
+      svg.querySelectorAll('.pw-slice').forEach(function (s, idx) {
+        s.classList.toggle('active', idx === index);
+      });
+
+      showHub(index);
+
+      solTag.textContent = 'MODULE ' + (index + 1) + ' OF 9 • ' + item.t.toUpperCase();
+      solTag.style.color = item.c;
+      solTitle.textContent = item.t;
+      solPain.textContent = item.pain;
+      solSolve.textContent = item.solve;
+      solTermTitle.textContent = item.id + '_workflow.sys';
+      solTermBody.innerHTML = item.mockup;
+
+      solBenefits.innerHTML = '';
+      item.benefits.forEach(function (b) {
+        var li = document.createElement('li');
+        li.innerHTML = '<span>✓</span> ' + b;
+        solBenefits.appendChild(li);
+      });
+
+      if (shouldScroll) {
+        solutionViewer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // Tab buttons
+    items.forEach(function (it, idx) {
+      var btn = document.createElement('button');
+      btn.className = 'module-tab-btn';
+      btn.textContent = it.t;
+      btn.addEventListener('click', function () { selectModule(idx, true); });
+      tabsContainer.appendChild(btn);
+    });
+
+    // Pinwheel slices
+    items.forEach(function (it, i) {
+      var mid = i * STEP, a0 = mid - STEP / 2, a1 = mid + STEP / 2;
+      var p1 = pt(R_OUT, a0), p2 = pt(R_OUT, a1), p3 = pt(R_IN, a1), p4 = pt(R_IN, a0);
+
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('class', 'pw-slice');
+      g.setAttribute('tabindex', '0');
+      g.setAttribute('role', 'button');
+      g.setAttribute('aria-label', it.t + ': ' + it.d);
+
+      var out = pt(14, mid);
+      g.style.setProperty('--dx', (out[0] - CX).toFixed(1) + 'px');
+      g.style.setProperty('--dy', (out[1] - CY).toFixed(1) + 'px');
+
+      var path = document.createElementNS(NS, 'path');
+      path.setAttribute('class', 'shape');
+      path.setAttribute('fill', it.c);
+      path.setAttribute('d',
+        'M' + p1 + ' A' + R_OUT + ' ' + R_OUT + ' 0 0 1 ' + p2 +
+        ' L' + p3 + ' A' + R_IN + ' ' + R_IN + ' 0 0 0 ' + p4 + ' Z');
+      g.appendChild(path);
+
+      var lp = pt(R_LABEL, mid);
+      var label = document.createElementNS(NS, 'g');
+      label.setAttribute('class', 'label');
+      label.innerHTML =
+        '<svg x="' + (lp[0] - 13) + '" y="' + (lp[1] - 30) + '" width="26" height="26" viewBox="0 0 24 24">' + it.i + '</svg>' +
+        '<text x="' + lp[0] + '" y="' + (lp[1] + 16) + '">' + it.t.replace('&', '&amp;') + '</text>';
+      g.appendChild(label);
+
+      g.addEventListener('mouseenter', function () { showHub(i); });
+      g.addEventListener('mouseleave', function () {
+        if (!g.classList.contains('active')) resetHub();
+      });
+      g.addEventListener('click', function (e) {
+        e.stopPropagation();
+        selectModule(i, true);
+      });
+      g.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectModule(i, true);
+        }
+      });
+
+      svg.appendChild(g);
+    });
+
+    // Default to Complaints (the 9-day leaking tap story)
+    selectModule(8, false);
+
+    // Click outside resets hub
+    document.addEventListener('click', function (e) {
+      if (!root.contains(e.target) && !tabsContainer.contains(e.target)) {
+        resetHub();
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
